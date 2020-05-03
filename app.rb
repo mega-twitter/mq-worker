@@ -7,9 +7,6 @@ require_relative 'message_queue_worker'
 require 'net/http'
 require 'json'
 
-enable :run
-
-
 set :redis, Redis.new()
 $mq = MQ.new(settings.redis)
 
