@@ -4,7 +4,6 @@ require 'sinatra/activerecord'
 require 'redis'
 require_relative 'helper/test_helper.rb'
 require_relative 'message_queue_worker'
-require 'net/http'
 require 'json'
 
 set :redis, Redis.new()
