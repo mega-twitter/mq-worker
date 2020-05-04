@@ -1,4 +1,4 @@
-name: Deploy to cloud
+name: Deploy to cloud 2
 
 on: [push]
 
@@ -27,18 +27,7 @@ jobs:
         with:
           ruby-version: 2.7
 
-      #     - name: Run Tests
-      #       env:
-      #         DB_HOST: localhost
-      #         DB_PASSWORD: postgres
-      #       run: |
-      #         gem install bundler
-      #         bundle install
-      #         bundle exec rake db:create RACK_ENV=test
-      #         bundle exec rake db:migrate RACK_ENV=test
-      #         bundle exec rake test
-
-    - name: (API) Copy file via scp
+      - name: (API) Copy file via scp
         uses: appleboy/scp-action@master
         env:
           HOST: ${{ secrets.API_HOST }}
@@ -49,13 +38,13 @@ jobs:
           source: "."
           target: "/home/rails/mq-worker"
 
-    - name: (API) Bundle and restart app server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.API_HOST }}
-        USERNAME: root
-        PORT: 22
-        KEY: ${{ secrets.API_SSHKEY }}
-        script: |
-          su - rails -c "cd /home/rails/mq-worker && bundle"
-          sudo systemctl restart mq-worker.service
+      - name: (API) Bundle and restart app server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.API_HOST }}
+          USERNAME: root
+          PORT: 22
+          KEY: ${{ secrets.API_SSHKEY }}
+          script: |
+            su - rails -c "cd /home/rails/mq-worker && bundle"
+            sudo systemctl restart mq-worker.service
