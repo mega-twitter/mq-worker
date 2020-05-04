@@ -5,7 +5,7 @@ default: &default
   port: 25060
   username: doadmin
   password: <%= ENV['DB_PASSWORD'] %>
-  pool: 2
+  pool: 1
 
 
 development:

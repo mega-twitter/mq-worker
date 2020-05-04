@@ -23,8 +23,9 @@ module TestHelper
 
     if redis.exists(redis_key)
       tweet_bulk.each  do |tweet|
-        redis.rpop(redis_key)
         redis.lpush(redis_key, tweet.to_json)
+        redis.rpop(redis_key) if redis.llen(redis) > 10
+
       end
     end
   end
