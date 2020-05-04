@@ -8,8 +8,6 @@ include RandomPassword
 
 
 module TestHelper
-
-
   # create tweets randomly for given user
   def self. generate_tweet(id, count, redis)
     tweet_bulk = []
@@ -21,9 +19,13 @@ module TestHelper
     end
     Tweet.import tweet_bulk, batch_size: 50, on_duplicate_key_ignore: true
 
-    if redis.exists(id)
-      tweet_bulk.each { |tweet| redis.lpush(id, tweet.to_json) }
-      puts "==================sucessful"
+    redis_key = id.to_s + "-1"
+
+    if redis.exists(redis_key)
+      tweet_bulk.each  do |tweet|
+        redis.rpop(redis_key)
+        redis.lpush(redis_key, tweet.to_json)
+      end
     end
   end
 

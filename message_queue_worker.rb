@@ -23,8 +23,6 @@ class MQ
     puts " [*] Waiting for messages in #{@queue.name}. To exit press CTRL+C"
     @queue.subscribe(block: true) do |delivery_info, properties, body|
       content =  JSON.parse(body)
-      puts content["user_id"]
-      puts content["tweet_cnt"]
       TestHelper.generate_tweet(content["user_id"].to_i, content["tweet_cnt"].to_i, @redis)
     end
   end
