@@ -26,17 +26,7 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.7
-      
-#     - name: Run Tests
-#       env:
-#         DB_HOST: localhost
-#         DB_PASSWORD: postgres
-#       run: |
-#         gem install bundler
-#         bundle install
-#         bundle exec rake db:create RACK_ENV=test
-#         bundle exec rake db:migrate RACK_ENV=test
-#         bundle exec rake test
+
     - name: (Service) Copy file via scp
       uses: appleboy/scp-action@master
       env:
