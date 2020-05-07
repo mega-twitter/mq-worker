@@ -5,7 +5,7 @@ require './models/tweet.rb'
 
 class MQ
   def initialize(redis)
-    @conn = Bunny.new(host:  '142.93.71.173',
+    @conn = Bunny.new(host:  '134.122.5.100',
                      port:  '5672',
                      vhost: '/',
                      ssl: false,
@@ -14,7 +14,7 @@ class MQ
 
     @conn.start
     @channel = @conn.create_channel
-    @queue = @channel.queue("test")
+    @queue = @channel.queue("tweet")
     @redis = redis
     self.receive
   end
