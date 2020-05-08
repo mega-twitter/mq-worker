@@ -16,7 +16,11 @@ class MQ
     @channel = @conn.create_channel
     @queue = @channel.queue("tweet")
     @redis = redis
-    self.receive
+
+    Thread.new do
+      self.receive
+    end
+
   end
 
 
@@ -40,8 +44,8 @@ class MQ
           tweet["created_at"] = tweet["created_at"].to_s
 
 
-          if redis.exists(redis_key)
-              redis.sadd(redis_key, tweet.to_json)
+          if @redis.exists(redis_key)
+            @redis.sadd(redis_key, tweet.to_json)
           end
 
 
@@ -50,8 +54,10 @@ class MQ
 
           follower_ids.each  do |id|
             follower_redis_key = id.to_s + "-1"
-            if redis.exists(follower_redis_key)
-              redis.sadd(follower_redis_key, tweet.to_json)
+
+
+            if @redis.exists(follower_redis_key)
+              @redis.sadd(follower_redis_key, tweet.to_json)
             end
           end
 

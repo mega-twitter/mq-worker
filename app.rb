@@ -7,6 +7,7 @@ require_relative 'message_queue_worker'
 require 'json'
 
 set :redis, Redis.new(host: "157.245.114.60", port: 6379)
+
 $mq = MQ.new(settings.redis)
 
 get "/" do
