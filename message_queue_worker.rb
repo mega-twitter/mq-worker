@@ -17,9 +17,8 @@ class MQ
     @queue = @channel.queue("tweet")
     @redis = redis
 
-    Thread.new do
-      self.receive
-    end
+    self.receive
+
 
   end
 
@@ -35,7 +34,7 @@ class MQ
 
         if tweet.save
 
-          redis_key = content["user_id"] + "-1"
+          redis_key =  "#{content["user_id"].to_s}-1"
           tweet = ActiveRecord::Base.connection.execute(
               "select tweets.content, tweets.created_at, tweets.user_id, users.name
   from tweets inner join users on tweets.user_id = users.id
